@@ -1,0 +1,22 @@
+{
+  "name": "blackjackrl",
+  "version": "1.0.0",
+  "description": "Blackjack reinfocment learning",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicholas-delaney/BlackjackRL.git"
+  },
+  "author": "Nicholas Delaney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicholas-delaney/BlackjackRL/issues"
+  },
+  "homepage": "https://github.com/nicholas-delaney/BlackjackRL#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
