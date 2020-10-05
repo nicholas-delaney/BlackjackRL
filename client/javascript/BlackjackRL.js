@@ -7,9 +7,12 @@ class BlackjackRL {
         this.newRound = true;
         this.env = new Environment();
         this.actions = [0, 1];
-        this.EPSILON = 0.5;
-        this.GAMMA = 0.2;
-        this.ALPHA = 0.3;
+        this.EPSILON = 0.3;
+        this.GAMMA = 0.0;
+        this.ALPHA = 0.5;
+        this.stats = { wins: 0, draws: 0, losses: 0};
+        this.totalIterations = 0;
+        this.iterationLimit = 1000000;
         this.init();
     }
 
@@ -36,23 +39,40 @@ class BlackjackRL {
             }
         }
         this.state = this.env.startNewRound();
-        for (let i = 0; i < 10000000; i++) {
-            this.qLearningIteration();
-        }
     }
 
+    // Perform Reinforcement Q - Learning steps
     qLearningIteration() {
-        // Q-Learning steps
-        let action = this.getNextAction();
-        let nextState = this.getNextState(action);
-        let reward = this.env.getReward(nextState, action);
-        this.updateValue(nextState, action, reward);
-        this.updatePolicy();
-        this.state = nextState;
+        // lower chance of taking random action every 1 million iterations
+        if (this.totalIterations === this.iterationLimit) {
+            this.EPSILON = (this.EPSILON > 0.0) ? this.EPSILON - 0.05 : 0.0;
+            this.iterationLimit += 1000000;
+        }
+        let action = this.getNextAction();                      // Get the next action based on current policy
+        let nextState = this.getNextState(action);              // Get the next state based on action taken
+        let reward = this.env.getReward(nextState, action);     // Get the reward from the next state
+        this.updateValue(action, reward);                       // update value at current state / action based on reward
+        this.updatePolicy();                                    // update policy at current state 
+        // check if round is over and update wins/losses/draws
         if (this.env.isRoundOver()) {
+            if (reward === 1) {
+                this.stats.draws += 1;
+            }
+            else if (reward === 2) {
+                this.stats.wins += 1;
+            }
+            else if (reward === -1) {
+                this.stats.losses += 1;
+            }
             this.state = this.env.startNewRound();
             this.env.setRoundOver(false);
         }
+        // if round isn't over, set the state for the next iteration
+        else {
+            this.state = nextState;
+        }
+        // increment total iterations
+        this.totalIterations++;
     }
 
     // select the next action to take based on the policy at the current state
@@ -94,23 +114,13 @@ class BlackjackRL {
         else if (action === 1) {
             nextState = this.env.playerHit(this.state);
         }
-        else {
-            console.log("big ol error");
-        }
         return nextState;
     }
 
-    updateValue(nextState, action, reward) {
-        let maxActionNextState = -999;
-        let aces = (nextState.softAce > 0) ? 1 : 0;
+    updateValue(action, reward) {
         let sAces = (this.state.softAce > 0) ? 1 : 0;
-        for (let i in this.actions) {
-            if (this.q[nextState.pSum][nextState.dealerCard][aces][i] >= maxActionNextState) {
-                maxActionNextState = this.q[nextState.pSum][nextState.dealerCard][aces][i];
-            }
-        }
-        let q = this.q[this.state.pSum][this.state.dealerCard][aces][action];
-        this.q[this.state.pSum][this.state.dealerCard][sAces][action] = q + this.ALPHA * (reward + this.GAMMA * maxActionNextState - q);
+        let q = this.q[this.state.pSum][this.state.dealerCard][sAces][action];
+        this.q[this.state.pSum][this.state.dealerCard][sAces][action] = q + this.ALPHA * (reward - q);
     }
 
     updatePolicy() {

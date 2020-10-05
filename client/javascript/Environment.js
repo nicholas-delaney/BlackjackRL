@@ -104,7 +104,7 @@ class Environment {
             }
             else {
                 this.setRoundOver(true);
-                return -1;
+                return -2;
             }
         }
         // if the player sticks (action = 0) or has 21 (blackjack), get reward based on dealer's policy
@@ -112,9 +112,9 @@ class Environment {
             this.setRoundOver(true);
             return this.dealerPolicy(nextState.pSum);
         }
-        // if the player hit return no reward (the round continues)
+        // return a reward if the player hits and doesn't bust
         else if (action === 1)  {
-            return 1;
+            return 0;
         }
     }
 
@@ -152,7 +152,7 @@ class Environment {
         }
         // determine if win, lose or draw for the player (1 = win, 0 = draw, -1 = lose)
         isBust = (dealerSum > 21) ? true : false;
-        let reward = (playerSum > dealerSum) ? 2 : (playerSum === dealerSum) ? 1 : (isBust) ? 2 : -2;
+        let reward = (playerSum > dealerSum) ? 2 : (playerSum === dealerSum) ? 0 : (isBust) ? 2 : -1;
         return reward;
     }
 

@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <title>Nicholas Delaney</title>
+  <title>Blackjack Reinforcement Learning</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="/client/style.css">
@@ -9,10 +9,25 @@
 
 <script src='client/javascript/BlackjackRL.js'></script>
 <script src='client/javascript/Environment.js'></script>
+<script src='client/javascript/DisplayLearning.js'></script>
+
+<body>
+  <div class="canvasContainer">
+    <canvas id="canvas" width="1100" height="500" style="border:3px solid black;"></canvas>
+  </div>
+</body>
 
 <script>
+    let canvas = document.getElementById('canvas');
+    //let heightRatio = 0.3;
+    //canvas.height = canvas.width * heightRatio;
     let rl = new BlackjackRL();
-    let environment = new Environment();
+    let displayLearning = new DisplayLearning();
+    // display Learning update loop
+    setInterval(() => {
+      displayLearning.update();
+    }, 100);
+
 </script>
 
 <body>
