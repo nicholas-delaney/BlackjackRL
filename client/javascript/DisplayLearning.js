@@ -90,7 +90,7 @@ class DisplayLearning {
                     }
                     // perform 1,000,000 q-learning iterations
                     else if (this.hoveredButton.text === "100,000 Iterations") {
-                        for (let i = 0; i < 100000; i++) {
+                        for (let i = 0; i < 1000000; i++) {
                             this.ai.qLearningIteration();
                         }
                     }
@@ -160,9 +160,9 @@ class DisplayLearning {
                     this.ctx.fillRect(this.pSumsPos.x + (i * step) + (k * 25) + 15, this.pSumsPos.y + 200, this.pSumsSize.x - 5, this.pSumsSize.y);
                     this.ctx.fillStyle = 'black';
                     if (!this.showValue) {
-                        let ace = (j === 0) ? 0 : 1;
+                        let ace = (k < 0) ? 1 : 0;
                         let action = (k % 2 === 0) ? 1 : 0;
-                        text = this.ai.p[i+12][10][ace][action];
+                        text = this.ai.p[i + 12][ace][action];
                     }
                     this.ctx.fillText(text, this.pSumsPos.x + (i * step) + (k * 25) + 19, this.pSumsPos.y + 17 + 200);
                 }

@@ -36,10 +36,8 @@ class Environment {
             }
             sum += cValue;
         }
-        let dValue = (this.dHand[1].value >= 10) ? 10 : (this.dHand[1].value === 1) ? 11 : this.dHand[1].value;
         let state = {
             pSum: sum,
-            dealerCard: dValue,
             softAce: aces,
         }
         return state;
@@ -88,10 +86,11 @@ class Environment {
         let newCard = this.deck.pop();
         this.pHand.push(newCard);
         // update state with new card
+        let newState = Object.assign({}, state);
         let cValue = (newCard.value >= 10) ? 10 : (newCard.value === 1) ? 11 : newCard.value;
-        state.pSum += cValue;
-        state.softAce = (newCard.value === 1) ? state.softAce + 1 : state.softAce;
-        return state;
+        newState.pSum += cValue;
+        newState.softAce = (newCard.value === 1) ? state.softAce + 1 : state.softAce;
+        return newState;
     }
 
     // get player's reward based on the nextState and the action taken from the previous state
@@ -114,7 +113,7 @@ class Environment {
         }
         // return a reward if the player hits and doesn't bust
         else if (action === 1)  {
-            return 0;
+            return 2;
         }
     }
 
@@ -152,7 +151,7 @@ class Environment {
         }
         // determine if win, lose or draw for the player (1 = win, 0 = draw, -1 = lose)
         isBust = (dealerSum > 21) ? true : false;
-        let reward = (playerSum > dealerSum) ? 2 : (playerSum === dealerSum) ? 0 : (isBust) ? 2 : -1;
+        let reward = (playerSum > dealerSum) ? 2 : (playerSum === dealerSum) ? 1 : (isBust) ? 2 : -2;
         return reward;
     }
 
