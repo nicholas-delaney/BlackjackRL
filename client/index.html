@@ -13,7 +13,7 @@
 <script src='client/javascript/DisplayLearning.js'></script>
 
 <body>
-  
+
   <div class="canvasContainer" id="canvasContainer">
     <canvas id="canvas" width="1200" height="500" style="border:3px solid black;"></canvas>
   </div>
@@ -59,7 +59,7 @@
           </li>
           <li>
             The next level represents whether or not the agent has an ace in their hand
-            (T = Agent does not have an ace, F = Agent has an ace).
+            (T = Agent has an ace, F = Agent does not have an ace).
           </li>
           <li>
             The next level represents the action the agent took (H = "Hit", S = "Stick").
@@ -77,8 +77,8 @@
             the bottom of th tree, the first two boxes you go through represent the state (player sum and whether the
             agent holds
             an ace) then the next box you go through represents the action and the next box represents the policy /
-            value of
-            taking that action in that state.
+            value of taking that action in that state. If you are viewing the policy a 1 means the agent thinks it should take that
+            action in that state and a 0 means the agent doesn't think it should take that action.
           </li>
         </ul>
         <h4>General Info</h4>
