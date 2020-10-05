@@ -4,6 +4,7 @@
   <title>Blackjack Reinforcement Learning</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
   <link rel="stylesheet" type="text/css" href="/client/style.css">
 </head>
 
@@ -12,21 +13,107 @@
 <script src='client/javascript/DisplayLearning.js'></script>
 
 <body>
-  <div class="canvasContainer">
-    <canvas id="canvas" width="1100" height="500" style="border:3px solid black;"></canvas>
+  <div class="canvasContainer" id="canvasContainer">
+    <canvas id="canvas" width="1200" height="500" style="border:3px solid black;"></canvas>
   </div>
+
+  <div class="instructions" id="instructions">
+    <h1>Instructions</h1>
+    <button class="button" type="button" onclick="goBack()">Go Back to Blackjack RL</button>
+    <div class="details">
+      <div class="rlInstructions">
+        <h2 class="heading">Blackjack Reinforcement Learning</h2>
+        <ul class="listStyle">
+          <li>
+            This app uses Reinforcment Learning, specifically the Q-Learning Algorithm, to teach an agent to play
+            blackjack.
+          </li>
+          <li>
+            The agent is trained by recieving a reward for each action and observing the resulting state. The value /
+            policy of the
+            original state is then updated based on the action taken and the reward recieved.
+          </li>
+          <li>
+            Hundreds of thousands or even millions of these iteration result in the agent playing a rational game of
+            blackjack.
+          </li>
+        </ul>
+      </div>
+      <div class="appSpecificInstructions">
+        <h2 class="heading">How To Use This App</h2>
+        <h4>Training the agent</h4>
+        <ul class="listStyle">
+          <li>
+            Use the iteration buttons on the left side of the screen and the agent will perform that many iterations
+            of the Q-Learning algorithm.
+          </li>
+        </ul>
+        <h4>Observing state values / policies</h4>
+        <ul class="listStyle">
+          <li>
+            The main section of the page shows a tree representing the states trained on in this app.
+          </li>
+          <li>
+            The top level of the tree represents the total sum of the agent's hand.
+          </li>
+          <li>
+            The next level represents whether or not the agent has an ace in their hand
+            (T = Agent does not have an ace, F = Agent has an ace).
+          </li>
+          <li>
+            The next level represents the action the agent took (H = "Hit", S = "Stick").
+          </li>
+          <li>
+            The final level represents the value / policy at the given state, when displaying the policy
+            a 1 represents that associated action would be taken in the given state. When displaying the value a
+            higher value represents the better state.
+          </li>
+          <li>
+            The values / policies will change as the agent is trained using the iteration buttons in the upper left.
+          </li>
+          <li>
+            Example: start from the top of the tree and follow the connecting lines down to
+            the bottom of th tree, the first two boxes you go through represent the state (player sum and whether the
+            agent holds
+            an ace) then the next box you go through represents the action and the next box represents the policy /
+            value of
+            taking that action in that state.
+          </li>
+        </ul>
+        <h4>General Info</h4>
+        <ul class="listStyle">
+          <li>
+            Use the buttons labelled "View Policy" and "View Values" to toggle between displaying the values or 
+            policies at the bottom of the state tree.
+          </li>
+          <li>
+            The Wins/Draws/Losses/Total iterations are displayed in the upper right.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button class="button" type="button" onclick="goBack()">Go Back to Blackjack RL</button>
+  </div>
+
 </body>
 
 <script>
-    let canvas = document.getElementById('canvas');
-    //let heightRatio = 0.3;
-    //canvas.height = canvas.width * heightRatio;
-    let rl = new BlackjackRL();
-    let displayLearning = new DisplayLearning();
-    // display Learning update loop
-    setInterval(() => {
-      displayLearning.update();
-    }, 100);
+  let canvas = document.getElementById('canvas');
+  let cContainer = document.getElementById('canvasContainer');
+  let instructions = document.getElementById('instructions');
+  //let heightRatio = 0.3;
+  //canvas.height = canvas.width * heightRatio;
+  let rl = new BlackjackRL();
+  let displayLearning = new DisplayLearning();
+  // display Learning update loop
+  setInterval(() => {
+    displayLearning.update();
+  }, 100);
+
+  function goBack() {
+    cContainer.style.display = 'flex';
+    instructions.style.display = 'none';
+  }
 
 </script>
 

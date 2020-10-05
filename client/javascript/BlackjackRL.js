@@ -66,7 +66,7 @@ qLearningIteration() {
         else if (reward === 2) {
             this.stats.wins += 1;
         }
-        else if (reward === -1) {
+        else if (reward === -2) {
             this.stats.losses += 1;
         }
         this.state = this.env.startNewRound();
